@@ -38,6 +38,13 @@ dependencies {
     compile 'com.mindorks.android:prdownloader:0.4.0'
     compile 'pl.bclogic:pulsator4droid:1.0.3'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.daasuu:CountAnimationTextView:0.1.1'
+
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
 
 }
 

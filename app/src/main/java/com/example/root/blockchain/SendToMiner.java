@@ -8,18 +8,27 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -49,11 +58,13 @@ public class SendToMiner extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     EditText amount;
     Button sendmoney;
-    String Sender="a";
-    String Reciver="b";
+    String Sender=logo.myInfo.getUid();
+    String Reciver;
 
-
-
+TextView nameS,nameR;
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle t;
+    private NavigationView nv;
 
 
     @Override
@@ -62,13 +73,132 @@ public class SendToMiner extends AppCompatActivity {
         setContentView(R.layout.activity_send_to_miner);
 
 
+        nameR=findViewById(R.id.textView17);
+        nameS=findViewById(R.id.textView15);
+        nameS.setText(logo.myInfo.getName());
+
+
+
+
+
+        dl = (DrawerLayout)findViewById(R.id.activity_main);
+        t = new ActionBarDrawerToggle(this, dl,R.string.common_open_on_phone, R.string.app_name);
+
+        dl.addDrawerListener(t);
+        t.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        nv = (NavigationView)findViewById(R.id.nv);
+nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+
+
+        int id = menuItem.getItemId();
+        switch(id)
+        {
+            case R.id.BlockChain:
+
+
+                Intent intent=new Intent(SendToMiner.this,BlockChain2.class);
+                startActivity(intent);
+        case R.id.MyWallet:
+
+        Intent intent2=new Intent(SendToMiner.this,MyWallet.class);
+    startActivity(intent2);
+
+            finish();
+
+            case R.id.SendMoney:
+
+                Intent intent3=new Intent(SendToMiner.this,SendToMiner.class);
+                startActivity(intent3);
+                finish();
+
+            case R.id.Mining
+                   :  Intent intent4=new Intent(SendToMiner.this,Mining.class);
+                startActivity(intent4);
+                finish();
+
+
+
+
+            default:
+                return true;
+        }
+
+
+    }
+});
+
+
+
+        if(Sender.equals("q4SmT6KlBIZ9O4ysayXloXg4aPI2")){
+
+
+    Reciver="dYe8n7O5zVh9hcaVhOc5MEocQxd2";
+
+}else if(Sender.equals("dYe8n7O5zVh9hcaVhOc5MEocQxd2")){
+
+    Reciver="q4SmT6KlBIZ9O4ysayXloXg4aPI2";
+
+}
+
+
+DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+
+databaseReference.child("Profiles").child("Users").child(Reciver).child("name").addValueEventListener(new ValueEventListener() {
+    @Override
+    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        nameR.setText(dataSnapshot.getValue().toString());
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+    }
+});
+
+
+
+        databaseReference.child("Profiles").child("Users").child(Reciver).child("profilepicture").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               // nameR.setText(dataSnapshot.getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         PulsatorLayout pulsator = (PulsatorLayout) findViewById(R.id.pulsator);
         pulsator.start();
 
 
         PulsatorLayout pulsator1 = (PulsatorLayout) findViewById(R.id.pulsator2);
-        pulsator.start();
+        pulsator1.start();
 amount=findViewById(R.id.amount);
 sendmoney=findViewById(R.id.SendMoney);
 sendmoney.setOnClickListener(new View.OnClickListener() {
@@ -337,6 +467,14 @@ databaseReference.child("MiningRequest").child(Sender).setValue(uri.toString());
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(t.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

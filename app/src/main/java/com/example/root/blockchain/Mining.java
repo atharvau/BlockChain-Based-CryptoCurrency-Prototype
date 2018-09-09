@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.downloader.Error;
@@ -37,6 +40,9 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+
 public class Mining extends AppCompatActivity {
 DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
 DatabaseHelperNewNode mydb;
@@ -45,7 +51,7 @@ TransBlock newnode;
 
 
     TransBlock NodeToAdd;
-DatabaseHelperTrans ne;
+    DatabaseHelperTrans ne;
     FirebaseStorage storage;
     StorageReference storageRef,imageRef,DownRef;
     ProgressDialog progressDialog;
@@ -54,6 +60,16 @@ DatabaseHelperTrans ne;
     DatabaseReference fb;
     Uri selectedImage;
     public static  String ak;
+int Only=0;
+
+    CircleImageView circleImageView;
+    TextView req,reqsender,Nonce,noncefinder;
+
+    Button startMining;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +77,48 @@ DatabaseHelperTrans ne;
         mydb = new DatabaseHelperNewNode(Mining.this);
         ne=new DatabaseHelperTrans(Mining.this);
 
-        GetBlocChain();
+        req=findViewById(R.id.textView6);
+        reqsender=findViewById(R.id.textView8);
+        noncefinder=findViewById(R.id.textView11);
+        Nonce=findViewById(R.id.textView13);
+        startMining=findViewById(R.id.button2);
+
+      PulsatorLayout  pulsator=findViewById(R.id.pulsator);
+      pulsator.start();
+
+        startMining.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+startMining.setText("Mining Started!");
+
+                req.setVisibility(View.VISIBLE);
+                reqsender.setVisibility(View.VISIBLE);
+                noncefinder.setVisibility(View.VISIBLE);
+                Nonce.setVisibility(View.VISIBLE);
+
+
+                GetBlocChain();
+
+
+
+
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+       // GetBlocChain();
 
 
     }
@@ -112,7 +169,7 @@ DatabaseHelperTrans ne;
                 }).start(new OnDownloadListener() {
                     @Override
                     public void onDownloadComplete() {
-                        Toast.makeText(getBaseContext(),"A",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getBaseContext(),"A",Toast.LENGTH_SHORT).show();
 
 
 
@@ -157,15 +214,15 @@ return 0;
 
     public void GetBlocChain(){
 
-
         DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
         databaseReference.child("ActiveChain").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GetNode(dataSnapshot.getValue().toString(),"blockchain.db");
-                extractchain();
-
-
+               if(Only==0) {
+                   GetNode(dataSnapshot.getValue().toString(), "blockchain.db");
+                   extractchain();
+Only++;
+               }
 
             }
 
@@ -234,8 +291,46 @@ ak=blockchain.get(s).getHash();
 
         }
 
-        Toast.makeText(getBaseContext(),"BLOCKCHAIN FETCHED",Toast.LENGTH_SHORT).show();
-        MiningReq();
+       //Toast.makeText(getBaseContext(),"BLOCKCHAIN FETCHED",Toast.LENGTH_SHORT).show();
+
+      DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+
+
+        databaseReference.child("MiningRequest").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+             if(dataSnapshot.exists()){
+                 MiningReq();
+
+             }
+             else {
+               // Toast.makeText(getBaseContext(),"NO MINING REQUEST",Toast.LENGTH_SHORT).show();
+
+             }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
 
@@ -259,6 +354,7 @@ ak=blockchain.get(s).getHash();
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 GetNode(dataSnapshot.getValue().toString(),"newnode.db");
+                reqsender.setText(dataSnapshot.getKey().toString());
 
             }
 
@@ -360,7 +456,7 @@ String DHash=newnode.getSender()+newnode.getReciver()+newnode.getValue()+BLockla
             Log.d("a", ""+nonce);
              DHash=newnode.getSender()+newnode.getReciver()+newnode.getValue()+BLocklast.getHash()+ts+nonce;
              Hash=md5(DHash);
-
+Nonce.setText(nonce+"");
 
         }
 
@@ -562,6 +658,9 @@ if(b==true){
                         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
 
                         databaseReference.child("ActiveChain").setValue(uri.toString());
+
+                        databaseReference.child("MiningRequest").removeValue();
+
 
 
 

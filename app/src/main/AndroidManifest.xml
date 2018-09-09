@@ -28,7 +28,7 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.example.root.blockchain" />
 
-        <activity android:name=".Test">
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +39,10 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".BlockChain2" />
         <activity android:name=".Mining" />
-        <activity android:name=".SendToMiner"></activity>
+        <activity android:name=".SendToMiner" />
+        <activity android:name=".Test" />
+        <activity android:name=".MyWallet" />
+        <activity android:name=".logo"></activity>
     </application>
 
 </manifest>
