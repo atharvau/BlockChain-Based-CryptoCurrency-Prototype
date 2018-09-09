@@ -2,7 +2,9 @@ package com.example.root.blockchain;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 
@@ -25,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 FloatingActionButton addblock;
 public static ArrayList<ModelBlocks> blockchain =new ArrayList<ModelBlocks>();
 RecyclerView recyclerView;
-public  MyAdapter myAdapter;
+public  MyAdapter2 myAdapter;
 
+public          int i=0;
 
 
     @Override
@@ -60,6 +66,19 @@ addblock.setOnClickListener(new View.OnClickListener() {
 
     }
 });
+
+
+        generateNoteOnSD(this,"A","a");
+
+
+
+
+
+
+
+
+
+
 
  }
 
@@ -98,7 +117,7 @@ addblock.setOnClickListener(new View.OnClickListener() {
 
             mMessageList.setHasFixedSize(true);
             mMessageList.setLayoutManager(linearLayoutManager);
-            myAdapter=new MyAdapter(blockchain,MainActivity.this);
+            myAdapter=new MyAdapter2(blockchain,MainActivity.this);
             mMessageList.setAdapter(myAdapter);
             myAdapter.notifyDataSetChanged();
 
@@ -153,8 +172,7 @@ else {
 
         final Runnable r = new Runnable() {
             public void run() {
-
-                check();
+          //  check();
 
 
                 handler.postDelayed(this, 1000);
@@ -190,22 +208,32 @@ else {
 
             if(!blockchain.get(i).getPrevhash().equals(blockchain.get(i-1).getHash())){
 
-                Toast.makeText(getBaseContext(),"A",Toast.LENGTH_SHORT).show();
-
-            }
+            //    Toast.makeText(getBaseContext(),"A",Toast.LENGTH_SHORT).show();
 
 
 
-            if(!blockchain.get(i-1).getHash().equals(blockchain.get(i).getPrevhash())){
-
-                Toast.makeText(getBaseContext(),"A",Toast.LENGTH_SHORT).show();
-
+                myAdapter.notifyDataSetChanged();
             }
 
 
 
 
-        }
+            {
+
+              //  Toast.makeText(getBaseContext(),"A",Toast.LENGTH_SHORT).show();
+
+                myAdapter.notifyDataSetChanged();
+            } }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -285,9 +313,45 @@ String data=Tdata.getText().toString();
 
 
 
+    public void generateNoteOnSD(Context context, String sFileName, String sBody) {
+        try {
+            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            File gpxfile = new File(root, sFileName);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(sBody);
+            writer.flush();
+            writer.close();
+            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
+
+
+
 
 
 
