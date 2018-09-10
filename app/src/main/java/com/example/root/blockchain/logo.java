@@ -1,6 +1,7 @@
 package com.example.root.blockchain;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
 
 public class logo extends AppCompatActivity {
 String uid;
@@ -26,6 +29,23 @@ uid= FirebaseAuth.getInstance().getUid();
 
 
 setTitle("LOGO");
+        File dir = Environment.getExternalStorageDirectory();
+        File file = new File(dir, "blockchain.db");
+        File file1 = new File(dir, "blockchain.db-journal");
+
+        File file2 = new File(dir, "newnode.db");
+
+        File file3 = new File(dir, "newnode.db-journal");
+
+        boolean deleted = file.delete();
+        boolean deleted1 = file1.delete();
+        boolean deleted2 = file2.delete();
+        boolean delete3=file3.delete();
+
+
+
+
+
 
         DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Profiles").child("Users").child(uid).child("name").addValueEventListener(new ValueEventListener() {

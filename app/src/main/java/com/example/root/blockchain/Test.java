@@ -17,6 +17,7 @@ import com.downloader.OnStartOrResumeListener;
 import com.downloader.PRDownloader;
 import com.downloader.PRDownloaderConfig;
 import com.downloader.Progress;
+import com.google.firebase.database.DatabaseReference;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,9 +32,119 @@ String me="b";
 
 
 
+/*
 
         DatabaseHelperTrans mydb=new DatabaseHelperTrans(this);
 
+
+        Long tsLong = System.currentTimeMillis() / 1000;
+        String ts = tsLong.toString();
+
+
+        int nonce=0;
+
+       String DHash="dYe8n7O5zVh9hcaVhOc5MEocQxd2"+"q4SmT6KlBIZ9O4ysayXloXg4aPI2"+"50"+"0000000000000"+ts+nonce;
+
+        String Hash=md5(DHash);
+
+
+        while (!Hash.substring(0,3).contains("000"))
+        {
+
+
+
+            nonce++;
+             DHash="dYe8n7O5zVh9hcaVhOc5MEocQxd2"+"q4SmT6KlBIZ9O4ysayXloXg4aPI2"+"50"+"0000000000000"+ts+nonce;
+             Hash=md5(DHash);
+
+
+
+        }
+
+*/
+
+
+
+      //  mydb.insertData("dYe8n7O5zVh9hcaVhOc5MEocQxd2","q4SmT6KlBIZ9O4ysayXloXg4aPI2","50",Hash,"0000000000000",ts,String.valueOf(nonce),"");
+
+
+Hash="0002634342fcbb35ec5efa324b6f79e6";
+
+        Long tsLong2 = System.currentTimeMillis() / 1000;
+        String ts2 = tsLong2.toString();
+
+
+        int nonce2=0;
+
+        String   DHash2="q4SmT6KlBIZ9O4ysayXloXg4aPI2"+"dYe8n7O5zVh9hcaVhOc5MEocQxd2"+"50"+Hash+ts2+nonce2;
+
+
+
+        String Hash2=md5(DHash2);
+
+
+        while (!Hash2.substring(0,3).contains("000"))
+        {
+
+
+
+            nonce2++;
+            DHash2="q4SmT6KlBIZ9O4ysayXloXg4aPI2"+"dYe8n7O5zVh9hcaVhOc5MEocQxd2"+"50"+Hash+ts2+nonce2;
+            Hash2=md5(DHash2);
+
+
+
+        }
+
+        Log.d("A", Hash2);
+
+        DatabaseHelperTrans databaseHelperTrans=new DatabaseHelperTrans(this);
+        databaseHelperTrans.insertData("q4SmT6KlBIZ9O4ysayXloXg4aPI2","dYe8n7O5zVh9hcaVhOc5MEocQxd2","50",Hash2,Hash,ts2,String.valueOf(nonce2),"");
+Toast.makeText(getBaseContext(),Hash2,Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+    }else if(Sender.equals("dYe8n7O5zVh9hcaVhOc5MEocQxd2")){
+
+        Reciver="q4SmT6KlBIZ9O4ysayXloXg4aPI2";
+
+    }
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
         int money=0;
         Cursor res = mydb.getAllData();
@@ -49,6 +160,7 @@ String me="b";
 
            }
 
+*/
 
 /*
             Log.d("A", "Total Money" + money);
@@ -74,6 +186,7 @@ String me="b";
             buffer.append(PrevHash+"\n");
             buffer.append(timestamp+"\n");
             buffer.append(nonce+"\n");*/
+/*
 
 
         }
@@ -85,6 +198,7 @@ String me="b";
 
 
 
+*/
 
 
 

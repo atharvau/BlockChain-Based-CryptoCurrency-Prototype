@@ -9,6 +9,7 @@ public class TransBlock {
     String PrevHash;
     String Timestamp;
     String Nonce;
+String Miner;
 
     public String getId() {
         return id;
@@ -74,7 +75,15 @@ public class TransBlock {
         Nonce = nonce;
     }
 
-    public TransBlock(String id, String sender, String reciver, String value, String hash, String prevHash, String timestamp, String nonce) {
+    public String getMiner() {
+        return Miner;
+    }
+
+    public void setMiner(String miner) {
+        Miner = miner;
+    }
+
+    public TransBlock(String id, String sender, String reciver, String value, String hash, String prevHash, String timestamp, String nonce, String miner) {
         this.id = id;
         Sender = sender;
         Reciver = reciver;
@@ -83,5 +92,6 @@ public class TransBlock {
         PrevHash = prevHash;
         Timestamp = timestamp;
         Nonce = nonce;
+        Miner = miner;
     }
 }

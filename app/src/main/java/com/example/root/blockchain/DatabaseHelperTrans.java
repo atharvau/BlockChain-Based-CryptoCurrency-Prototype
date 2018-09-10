@@ -19,6 +19,8 @@ public class DatabaseHelperTrans extends SQLiteOpenHelper {
     public static final String COL_6 = "PREVHASH";
     public static final String COL_7 = "TIMESTAMP";
     public static final String COL_8 = "NONCE";
+    public static final String COL_9 = "MINER";
+
 
 
 
@@ -35,7 +37,7 @@ public class DatabaseHelperTrans extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
-        db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,SENDER TEXT,RECIVER TEXT,VALUE TEXT,HASH TEXT,PREVHASH TEXT,TIMESTAMP TEXT,NONCE TEXT)");
+        db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,SENDER TEXT,RECIVER TEXT,VALUE TEXT,HASH TEXT,PREVHASH TEXT,TIMESTAMP TEXT,NONCE TEXT,MINER TEXT)");
         db.delete(TABLE_NAME, null,null);
 
 
@@ -49,7 +51,7 @@ public class DatabaseHelperTrans extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String Sender,String Reciver,String value,String hash,String prevhash,String timestamp,String nonce) {
+    public boolean insertData(String Sender,String Reciver,String value,String hash,String prevhash,String timestamp,String nonce,String Miner) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2,Sender);
@@ -59,6 +61,7 @@ public class DatabaseHelperTrans extends SQLiteOpenHelper {
         contentValues.put(COL_6,prevhash);
         contentValues.put(COL_7,timestamp);
         contentValues.put(COL_8,nonce);
+        contentValues.put(COL_9,Miner);
 
 
 

@@ -42,7 +42,8 @@
         <activity android:name=".SendToMiner" />
         <activity android:name=".Test" />
         <activity android:name=".MyWallet" />
-        <activity android:name=".logo"></activity>
+        <activity android:name=".logo" />
+        <activity android:name=".Mining2"></activity>
     </application>
 
 </manifest>

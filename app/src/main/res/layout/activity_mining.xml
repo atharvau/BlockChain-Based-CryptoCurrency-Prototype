@@ -15,8 +15,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/circle"
+        android:elevation="10dp"
         android:src="@drawable/mininglogo"
-        android:translationZ="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -52,7 +52,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:background="@color/colorAccent"
-        android:elevation="20dp"
         android:text="Start Mining"
         android:textColor="@color/white_color"
         android:textStyle="bold"
@@ -132,6 +131,7 @@
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView11"
         app:layout_constraintVertical_bias="0.0" />
+
     <android.support.v4.widget.DrawerLayout
 
         android:id="@+id/activity_main"
@@ -139,7 +139,6 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="4dp"
         android:layout_marginStart="8dp"
-        android:elevation="50dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -147,9 +146,12 @@
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="@drawable/shadowrounded"
+            android:translationZ="20dp"
+            app:elevation="20dp"
             app:menu="@menu/menu">
 
         </android.support.design.widget.NavigationView>
@@ -157,20 +159,8 @@
 
     </android.support.v4.widget.DrawerLayout>
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Transfer Money To Another Person"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="@+id/activity_main"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.052" />
+
+
+
+
 </android.support.constraint.ConstraintLayout>
